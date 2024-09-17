@@ -1,0 +1,33 @@
+/* Ensure the body and html take up the entire viewport */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* General layout to cover the whole screen */
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100vw;
+    /* 100% of the viewport width */
+    height: 100vh;
+    /* 100% of the viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: lightblue;
+    /* Set background to light blue */
+}
+
+/* Example content inside the container */
+.content {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
