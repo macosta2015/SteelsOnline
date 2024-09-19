@@ -1,13 +1,15 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-
-
-      </header>
+      <form>
+        <h1>
+          React File Upload
+        </h1>
+        <input type="file" />
+        <button type="submit">Upload</button>
+      </form>
     </div>
   );
 }
