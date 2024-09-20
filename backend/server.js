@@ -16,7 +16,7 @@ function getFormattedDate() {
     return `${month}${day}${year}`;
 }
 
-// Set up multer storage with the original file extension and date prefix
+// Set up multer storage with only the date and file extension in the filename
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads/');
@@ -24,8 +24,8 @@ const storage = multer.diskStorage({
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname); // Get the file extension
         const datePrefix = getFormattedDate(); // Get current date as MMDDYYYY
-        const name = `${datePrefix}-${file.fieldname}-${Date.now()}${ext}`; // Add date and unique name
-        cb(null, name);
+        const name = `${datePrefix}${ext}`; // Add date prefix and the original extension
+        cb(null, name); // Set the file name as MMDDYYYY.extension
     }
 });
 
@@ -68,14 +68,24 @@ app.listen(PORT, () => {
 // // Enable CORS to allow requests from your frontend (React app)
 // app.use(cors());
 
-// // Set up multer storage with original file extension
+// // Helper function to format the current date as MMDDYYYY
+// function getFormattedDate() {
+//     const now = new Date();
+//     const month = String(now.getMonth() + 1).padStart(2, '0');
+//     const day = String(now.getDate()).padStart(2, '0');
+//     const year = now.getFullYear();
+//     return `${month}${day}${year}`;
+// }
+
+// // Set up multer storage with the original file extension and date prefix
 // const storage = multer.diskStorage({
 //     destination: (req, file, cb) => {
 //         cb(null, 'uploads/');
 //     },
 //     filename: (req, file, cb) => {
 //         const ext = path.extname(file.originalname); // Get the file extension
-//         const name = file.fieldname + '-' + Date.now() + ext; // Create a unique name with extension
+//         const datePrefix = getFormattedDate(); // Get current date as MMDDYYYY
+//         const name = `${datePrefix}-${file.fieldname}-${Date.now()}${ext}`; // Add date and unique name
 //         cb(null, name);
 //     }
 // });
@@ -107,3 +117,5 @@ app.listen(PORT, () => {
 // app.listen(PORT, () => {
 //     console.log(`Server is running on http://localhost:${PORT}`);  // Updated log message
 // });
+
+
