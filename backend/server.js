@@ -23,7 +23,14 @@ app.post('/uploadFile', upload.single('file'), (req, res) => {
     res.json({ file: `/uploads/${req.file.filename}` });
 });
 
-// Start the server on port 5000
-app.listen(5000, () => {
-    console.log('Server is running on http://localhost:5000');
+// Add this route to your existing server.js file
+app.get('/', (req, res) => {
+    res.send('Welcome to the File Upload API!');
+});
+
+
+// Start the server on port 5001 (change this line)
+const PORT = 5001;  // New port number
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);  // Updated log message
 });

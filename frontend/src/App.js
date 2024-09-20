@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 function App() {
-
   const [file, setFile] = useState();
   const [uploadedFile, setUploadedFile] = useState();
   const [error, setError] = useState();
@@ -40,7 +39,7 @@ function App() {
     }
 
     setLoading(true); // Start loading indicator
-    const url = 'http://localhost:3000/uploadFile';
+    const url = 'http://localhost:5001/uploadFile'; // Updated URL
     const formData = new FormData();
     formData.append('file', file);
     formData.append('fileName', file.name);
