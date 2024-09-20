@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Typography, CircularProgress, TextField, Container, Box } from '@mui/material';
+import { Button, CircularProgress, TextField, Container, Box, Card, CardMedia, CardContent, Typography } from '@mui/material';
+
+
 import axios from 'axios';
 
 function App() {
@@ -72,11 +74,27 @@ function App() {
       {loading && <Typography variant="body2">Uploading...</Typography>}
 
       {/* Display uploaded file if available */}
-      {uploadedFile && (
+      {/* {uploadedFile && (
         <Box mt={3}>
           <img src={uploadedFile} alt="Uploaded content" style={{ width: '100%', maxHeight: '400px', objectFit: 'cover' }} />
         </Box>
-      )}
+      )} */}
+      {uploadedFile && (
+  <Card sx={{ mt: 3, maxWidth: 500, mx: 'auto' }}>
+    <CardMedia
+      component="img"
+      height="400"
+      image={uploadedFile}
+      alt="Uploaded content"
+      sx={{ objectFit: 'cover' }}
+    />
+    <CardContent>
+      <Typography variant="body1" color="text.secondary">
+        Uploaded File Preview
+      </Typography>
+    </CardContent>
+  </Card>
+)}
 
       {/* Display error message if an error occurs */}
       {error && <Typography color="error" variant="body2">Error: {error.message}</Typography>}
