@@ -7,8 +7,19 @@ const app = express();
 // Enable CORS to allow requests from your frontend (React app)
 app.use(cors());
 
-// Set up multer for file uploads (files will be stored in 'uploads' folder)
-const upload = multer({ dest: 'uploads/' });
+// Set up multer storage with original file extension
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname); // Get the file extension
+        const name = file.fieldname + '-' + Date.now() + ext; // Create a unique name with extension
+        cb(null, name);
+    }
+});
+
+const upload = multer({ storage: storage });
 
 // Serve static files from the 'uploads' folder
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -19,6 +30,8 @@ app.post('/uploadFile', upload.single('file'), (req, res) => {
         return res.status(400).send({ message: 'No file uploaded' });
     }
 
+    console.log('Uploaded file:', req.file); // Log the uploaded file information
+
     // Respond with the path of the uploaded file
     res.json({ file: `/uploads/${req.file.filename}` });
 });
@@ -28,8 +41,7 @@ app.get('/', (req, res) => {
     res.send('Welcome to the File Upload API!');
 });
 
-
-// Start the server on port 5001 (change this line)
+// Start the server on port 5001
 const PORT = 5001;  // New port number
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);  // Updated log message
