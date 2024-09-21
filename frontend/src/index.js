@@ -15,9 +15,6 @@ root.render(
     {/* <HelperTextAligned /> */}
     <App />
     <EmailList />
-
-
-
   </React.StrictMode>
 );
 
