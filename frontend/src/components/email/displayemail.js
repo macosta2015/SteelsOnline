@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, List, ListItem, ListItemText, CircularProgress, Grid, Paper, Button } from '@mui/material';
+import { Box, Typography, List, ListItem, ListItemText, CircularProgress, Grid, Paper, IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function DisplayEmails({ emailRefreshTrigger }) {
   const [emails, setEmails] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [duplicateError, setDuplicateError] = useState(null);
 
   useEffect(() => {
     const fetchEmails = async () => {
@@ -30,47 +30,20 @@ function DisplayEmails({ emailRefreshTrigger }) {
   const handleDelete = async (emailToDelete) => {
     try {
       const response = await fetch('http://localhost:5001/deleteEmail', {
-        method: 'DELETE', // Changed to DELETE
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email: emailToDelete }), // Send single email
+        body: JSON.stringify({ email: emailToDelete }),
       });
 
       if (!response.ok) {
         throw new Error('Failed to delete email');
       }
 
-      // Remove email from the local state
       setEmails(emails.filter(email => email !== emailToDelete));
     } catch (error) {
       console.error('Error deleting email:', error);
-    }
-  };
-
-  const handleAddEmail = async (newEmail) => {
-    try {
-      const response = await fetch('http://localhost:5001/saveEmail', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: newEmail }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        if (errorData.message === 'Email already exists') {
-          setDuplicateError('This email is already in use.');
-        }
-        throw new Error('Failed to save email');
-      }
-
-      // Clear duplicate error and re-fetch emails
-      setDuplicateError(null);
-      // Optionally, you can trigger a refetch here if needed
-    } catch (error) {
-      console.error('Error adding email:', error);
     }
   };
 
@@ -97,11 +70,6 @@ function DisplayEmails({ emailRefreshTrigger }) {
           <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold', textAlign: 'center' }}>
             Emails from File
           </Typography>
-          {duplicateError && (
-            <Typography color="error" sx={{ textAlign: 'center' }}>
-              {duplicateError}
-            </Typography>
-          )}
           <List>
             {emails.map((email, index) => (
               <ListItem
@@ -117,14 +85,13 @@ function DisplayEmails({ emailRefreshTrigger }) {
                 }}
               >
                 <ListItemText primary={email} sx={{ wordBreak: 'break-all' }} />
-                <Button
+                <IconButton
                   onClick={() => handleDelete(email)}
-                  color="secondary"
-                  variant="outlined"
+                  color="primary" // Change this to match your desired blue
                   sx={{ ml: 2 }}
                 >
-                  Delete
-                </Button>
+                  <DeleteIcon />
+                </IconButton>
               </ListItem>
             ))}
           </List>
@@ -138,12 +105,14 @@ export default DisplayEmails;
 
 
 // import React, { useEffect, useState } from 'react';
-// import { Box, Typography, List, ListItem, ListItemText, CircularProgress, Grid, Paper, Button } from '@mui/material';
+// import { Box, Typography, List, ListItem, ListItemText, CircularProgress, Grid, Paper, IconButton } from '@mui/material';
+// import DeleteIcon from '@mui/icons-material/Delete'; // Import the trash icon
 
 // function DisplayEmails({ emailRefreshTrigger }) {
 //   const [emails, setEmails] = useState([]);
 //   const [loading, setLoading] = useState(true);
 //   const [error, setError] = useState(null);
+//   const [duplicateError, setDuplicateError] = useState(null);
 
 //   useEffect(() => {
 //     const fetchEmails = async () => {
@@ -168,11 +137,11 @@ export default DisplayEmails;
 //   const handleDelete = async (emailToDelete) => {
 //     try {
 //       const response = await fetch('http://localhost:5001/deleteEmail', {
-//         method: 'DELETE', // Changed to DELETE
+//         method: 'DELETE',
 //         headers: {
 //           'Content-Type': 'application/json',
 //         },
-//         body: JSON.stringify({ email: emailToDelete }), // Send single email
+//         body: JSON.stringify({ email: emailToDelete }),
 //       });
 
 //       if (!response.ok) {
@@ -209,6 +178,11 @@ export default DisplayEmails;
 //           <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold', textAlign: 'center' }}>
 //             Emails from File
 //           </Typography>
+//           {duplicateError && (
+//             <Typography color="error" sx={{ textAlign: 'center' }}>
+//               {duplicateError}
+//             </Typography>
+//           )}
 //           <List>
 //             {emails.map((email, index) => (
 //               <ListItem
@@ -224,14 +198,13 @@ export default DisplayEmails;
 //                 }}
 //               >
 //                 <ListItemText primary={email} sx={{ wordBreak: 'break-all' }} />
-//                 <Button
+//                 <IconButton
 //                   onClick={() => handleDelete(email)}
 //                   color="secondary"
-//                   variant="outlined"
 //                   sx={{ ml: 2 }}
 //                 >
-//                   Delete
-//                 </Button>
+//                   <DeleteIcon />
+//                 </IconButton>
 //               </ListItem>
 //             ))}
 //           </List>
