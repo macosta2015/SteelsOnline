@@ -1,5 +1,3 @@
-// src/components/email/DisplayEmails.js
-
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, List, ListItem, ListItemText, CircularProgress } from '@mui/material';
 
