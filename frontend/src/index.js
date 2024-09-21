@@ -1,25 +1,31 @@
-import React, { useState } from 'react'; // Make sure useState is imported
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import EmailList from './components/email/email.js';
-import DeleteEmail from './components/email/deleteemail.js';
 import DisplayEmails from './components/email/displayemail.js';
-
-import App from './App.js'
+import App from './App.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 function Main() {
+  // Manage the email list and refresh state
+  const [emailRefreshTrigger, setEmailRefreshTrigger] = useState(false); // To trigger re-fetching of emails
   const [emailList, setEmailList] = useState([]);
+
+  // Trigger to refresh email display when a new email is added
+  const handleEmailAdded = () => {
+    setEmailRefreshTrigger(prev => !prev); // Toggle the state to refresh `DisplayEmails`
+  };
 
   return (
     <>
       <App />
-      <EmailList emailList={emailList} setEmailList={setEmailList} />
-      <DisplayEmails />
+      {/* Pass the handleEmailAdded function to EmailList to trigger refresh */}
+      <EmailList emailList={emailList} setEmailList={setEmailList} onEmailAdded={handleEmailAdded} />
 
-      {/* <DeleteEmail emailList={emailList} setEmailList={setEmailList} /> */}
-
+      {/* DisplayEmails will re-fetch whenever emailRefreshTrigger changes */}
+      <DisplayEmails emailRefreshTrigger={emailRefreshTrigger} />
     </>
   );
 }
@@ -30,6 +36,38 @@ root.render(
   </React.StrictMode>
 );
 
-
-
 reportWebVitals();
+
+
+// import React, { useState } from 'react'; // Make sure useState is imported
+// import ReactDOM from 'react-dom/client';
+// import './index.css';
+// import reportWebVitals from './reportWebVitals';
+// import EmailList from './components/email/email.js';
+// import DeleteEmail from './components/email/deleteemail.js';
+// import DisplayEmails from './components/email/displayemail.js';
+
+// import App from './App.js'
+
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// function Main() {
+//   const [emailList, setEmailList] = useState([]);
+
+//   return (
+//     <>
+//       <App />
+//       <EmailList emailList={emailList} setEmailList={setEmailList} />
+//       <DisplayEmails />
+//     </>
+//   );
+// }
+
+// root.render(
+//   <React.StrictMode>
+//     <Main />
+//   </React.StrictMode>
+// );
+
+
+
+// reportWebVitals();
