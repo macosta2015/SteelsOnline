@@ -10,6 +10,9 @@ root.render(
   <React.StrictMode>
     {/* <HelperTextAligned /> */}
     <App />
+    <App />
+
+    
   </React.StrictMode>
 );
 

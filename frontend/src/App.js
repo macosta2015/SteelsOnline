@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Box, Button, Card, CardMedia, CardContent, Typography, Snackbar } from '@mui/material';
+import { Box, Button, Card, CardMedia, CardContent, Typography, Snackbar, Grid } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -19,13 +19,11 @@ function App() {
   function handleChange(event) {
     const selectedFile = event.target.files[0];
 
-    // File size validation (e.g., max 5MB)
     if (selectedFile.size > 5000000) { // 5MB limit
       setError(new Error('File size should be less than 5MB.'));
       return;
     }
 
-    // File type validation (e.g., only JPEG and PNG allowed)
     if (!['image/jpeg', 'image/png'].includes(selectedFile.type)) {
       setError(new Error('Only JPEG or PNG files are allowed.'));
       return;
@@ -34,7 +32,6 @@ function App() {
     setError(null);
     setFile(selectedFile);
 
-    // Set uploadedFile to display the image preview
     const reader = new FileReader();
     reader.onloadend = () => {
       setUploadedFile(reader.result);
@@ -51,7 +48,7 @@ function App() {
       return;
     }
 
-    setLoading(true); // Start loading indicator
+    setLoading(true);
     const url = 'http://localhost:5001/uploadFile';
     const formData = new FormData();
     formData.append('file', file);
@@ -62,27 +59,22 @@ function App() {
       },
     };
 
-    // Send POST request with the file
     axios.post(url, formData, config)
       .then((response) => {
-        console.log(response.data);
         setUploadedFile(`http://localhost:5001${response.data.file}`);
-        setLoading(false); // Stop loading indicator
-        setOpenSnackbar(true); // Show success message
+        setLoading(false);
+        setOpenSnackbar(true);
       })
       .catch((error) => {
         setLoading(false);
         if (error.response) {
-          console.error("Error uploading file: ", error.response.data);
           setError(new Error('Error uploading file: ' + error.response.data.message));
         } else {
-          console.error("Error uploading file: ", error.message);
           setError(new Error('Error uploading file: ' + error.message));
         }
       });
   }
 
-  // Close the Snackbar
   const handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -91,66 +83,69 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <form onSubmit={handleSubmit}>
-        <h1>UPLOAD STEEL QUOTES</h1>
+    <Grid container justifyContent="center" alignItems="center" sx={{ height: '100vh', padding: 2 }}>
+      <Grid item xs={12} sm={8} md={6} lg={4}>
+        <form onSubmit={handleSubmit}>
+          <Typography variant="h4" align="center" gutterBottom>
+            UPLOAD STEEL QUOTES
+          </Typography>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <input
-            accept="image/jpeg,image/png"
-            style={{ display: 'none' }}
-            id="upload-file"
-            type="file"
-            onChange={handleChange}
-          />
-          <label htmlFor="upload-file">
-            <Button variant="contained" component="span" sx={{ mt: 2, mb: 2 }}>
-              Choose File
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <input
+              accept="image/jpeg,image/png"
+              style={{ display: 'none' }}
+              id="upload-file"
+              type="file"
+              onChange={handleChange}
+            />
+            <label htmlFor="upload-file">
+              <Button variant="contained" component="span" sx={{ mt: 2, mb: 2, width: '100%' }}>
+                Choose File
+              </Button>
+            </label>
+
+            {/* Show the uploaded file preview immediately after selection */}
+            {uploadedFile && (
+              <Card sx={{ mt: 3, width: '100%' }}>
+                <CardMedia
+                  component="img"
+                  height="400"
+                  image={uploadedFile}
+                  alt="Uploaded content"
+                  sx={{ objectFit: 'cover' }}
+                />
+                <CardContent>
+                  <Typography variant="body1" color="text.secondary">
+                    Uploaded File Preview
+                  </Typography>
+                </CardContent>
+              </Card>
+            )}
+
+            <Button type="submit" variant="contained" color="primary" sx={{ mt: 3, width: '100%' }}>
+              Upload
             </Button>
-          </label>
+          </Box>
+        </form>
 
-          {/* Show the uploaded file preview immediately after selection */}
-          {uploadedFile && (
-            <Card sx={{ mt: 3, maxWidth: 500, mx: 'auto' }}>
-              <CardMedia
-                component="img"
-                height="400"
-                image={uploadedFile}
-                alt="Uploaded content"
-                sx={{ objectFit: 'cover' }}
-              />
-              <CardContent>
-                <Typography variant="body1" color="text.secondary">
-                  Uploaded File Preview
-                </Typography>
-              </CardContent>
-            </Card>
-          )}
+        {/* Loading indicator */}
+        {loading && <Typography variant="body1" align="center">Uploading...</Typography>}
 
-          <Button type="submit" variant="contained" color="primary" sx={{ mt: 3 }}>
-            Upload
-          </Button>
-        </Box>
-      </form>
+        {/* Display error message if an error occurs */}
+        {error && <Typography variant="body1" color="error" align="center">Error: {error.message}</Typography>}
 
-      {/* Loading indicator */}
-      {loading && <p>Uploading...</p>}
-
-      {/* Display error message if an error occurs */}
-      {error && <p style={{ color: 'red' }}>Error: {error.message}</p>}
-
-      {/* Snackbar for success message */}
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-        <Alert onClose={handleCloseSnackbar} severity="success">
-          File uploaded successfully!
-        </Alert>
-      </Snackbar>
-    </div>
+        {/* Snackbar for success message */}
+        <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+          <Alert onClose={handleCloseSnackbar} severity="success">
+            File uploaded successfully!
+          </Alert>
+        </Snackbar>
+      </Grid>
+    </Grid>
   );
 }
 
 export default App;
-
 
 
 // import './App.css';
@@ -250,40 +245,42 @@ export default App;
 //       <form onSubmit={handleSubmit}>
 //         <h1>UPLOAD STEEL QUOTES</h1>
 
-//         <input
-//           accept="image/jpeg,image/png"
-//           style={{ display: 'none' }}
-//           id="upload-file"
-//           type="file"
-//           onChange={handleChange}
-//         />
-//         <label htmlFor="upload-file">
-//           <Button variant="contained" color="primary" component="span" sx={{ mt: 2 }}>
-//             Choose File
+//         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+//           <input
+//             accept="image/jpeg,image/png"
+//             style={{ display: 'none' }}
+//             id="upload-file"
+//             type="file"
+//             onChange={handleChange}
+//           />
+//           <label htmlFor="upload-file">
+//             <Button variant="contained" component="span" sx={{ mt: 2, mb: 2 }}>
+//               Choose File
+//             </Button>
+//           </label>
+
+//           {/* Show the uploaded file preview immediately after selection */}
+//           {uploadedFile && (
+//             <Card sx={{ mt: 3, maxWidth: 500, mx: 'auto' }}>
+//               <CardMedia
+//                 component="img"
+//                 height="400"
+//                 image={uploadedFile}
+//                 alt="Uploaded content"
+//                 sx={{ objectFit: 'cover' }}
+//               />
+//               <CardContent>
+//                 <Typography variant="body1" color="text.secondary">
+//                   Uploaded File Preview
+//                 </Typography>
+//               </CardContent>
+//             </Card>
+//           )}
+
+//           <Button type="submit" variant="contained" color="primary" sx={{ mt: 3 }}>
+//             Upload
 //           </Button>
-//         </label>
-
-//         {/* Show the uploaded file preview immediately after selection */}
-//         {uploadedFile && (
-//           <Card sx={{ mt: 3, maxWidth: 500, mx: 'auto' }}>
-//             <CardMedia
-//               component="img"
-//               height="400"
-//               image={uploadedFile}
-//               alt="Uploaded content"
-//               sx={{ objectFit: 'cover' }}
-//             />
-//             <CardContent>
-//               <Typography variant="body1" color="text.secondary">
-//                 Uploaded File Preview
-//               </Typography>
-//             </CardContent>
-//           </Card>
-//         )}
-
-//         <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
-//           Upload
-//         </Button>
+//         </Box>
 //       </form>
 
 //       {/* Loading indicator */}
@@ -303,15 +300,4 @@ export default App;
 // }
 
 // export default App;
-
-
-
-
-
-
-
-
-
-
-
 
