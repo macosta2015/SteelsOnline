@@ -61,6 +61,15 @@ app.post('/saveEmail', (req, res) => {
   });
 });
 
+
+
+
+// Add this to your server.js
+app.get('/emails.txt', (req, res) => {
+  res.sendFile(path.join(__dirname, 'emails.txt'));
+});
+
+
 // Root route
 app.get('/', (req, res) => {
     res.send('Welcome to the File Upload API!');
