@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, List, ListItem, ListItemText, Snackbar, Typography, Container } from '@mui/material';
+import { Box, TextField, Button, List, ListItem, ListItemText, Snackbar, Typography, Grid } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -41,52 +41,52 @@ function EmailList() {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ mt: 5 }}>
-      <Box sx={{ padding: 3, borderRadius: 2, boxShadow: 3 }}>
-        <Typography variant="h5" align="center" gutterBottom>
-          Add Email to List
-        </Typography>
+    <Grid container justifyContent="center" alignItems="center" sx={{ height: '100vh', padding: 2 }}>
+      <Grid item xs={12} sm={8} md={6} lg={4}>
+        <Box sx={{ padding: 3, borderRadius: 2, boxShadow: 3 }}>
+          <Typography variant="h5" align="center" gutterBottom>
+            Add Email to List
+          </Typography>
 
-        <form onSubmit={handleSubmit}>
-          <TextField
-            fullWidth
-            label="Enter Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            error={!!error}
-            helperText={error}
-            variant="outlined"
-            sx={{ mb: 2 }}
-          />
-          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mb: 2 }}>
-            Add Email
-          </Button>
-        </form>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              fullWidth
+              label="Enter Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              error={!!error}
+              helperText={error}
+              variant="outlined"
+              sx={{ mb: 2 }}
+            />
+            <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mb: 2 }}>
+              Add Email
+            </Button>
+          </form>
 
-        {emailList.length > 0 && (
-          <Box mt={3}>
-            <Typography variant="h6">Email List:</Typography>
-            <List>
-              {emailList.map((email, index) => (
-                <ListItem key={index}>
-                  <ListItemText primary={email} />
-                </ListItem>
-              ))}
-            </List>
-          </Box>
-        )}
+          {emailList.length > 0 && (
+            <Box mt={3}>
+              <Typography variant="h6">Email List:</Typography>
+              <List>
+                {emailList.map((email, index) => (
+                  <ListItem key={index}>
+                    <ListItemText primary={email} />
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+          )}
 
-        {/* Snackbar for success */}
-        <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-          <Alert onClose={handleCloseSnackbar} severity="success">
-            Email added successfully!
-          </Alert>
-        </Snackbar>
-      </Box>
-    </Container>
+          {/* Snackbar for success */}
+          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+            <Alert onClose={handleCloseSnackbar} severity="success">
+              Email added successfully!
+            </Alert>
+          </Snackbar>
+        </Box>
+      </Grid>
+    </Grid>
   );
 }
 
 export default EmailList;
-
-
