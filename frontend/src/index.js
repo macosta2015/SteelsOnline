@@ -4,6 +4,9 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import EmailList from './components/email/email.js';
 import DisplayEmails from './components/email/displayemail.js';
+
+
+
 import App from './App.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -26,6 +29,7 @@ function Main() {
 
       {/* DisplayEmails will re-fetch whenever emailRefreshTrigger changes */}
       <DisplayEmails emailRefreshTrigger={emailRefreshTrigger} />
+
     </>
   );
 }
