@@ -1,5 +1,8 @@
+<<<<<<< Updated upstream
 andres@gmail.com
 holamexi@gmail.commacosta2015@my.fit.edu
 mg@michelleguardia.com
 macosta2015@my.fit.edu
 edu12977@gmail.com
+=======
+>>>>>>> Stashed changes
