@@ -4,8 +4,6 @@ import { Grid, Paper, Typography, Button, CircularProgress, TextField } from '@m
 
 function EmailAttachmentForm() {
     const [file, setFile] = useState();
-    const [email, setEmail] = useState('');
-    const [emails, setEmails] = useState([]);
     const [uploadedFileUrl, setUploadedFileUrl] = useState('');
     const [error, setError] = useState();
     const [loading, setLoading] = useState(false);
@@ -30,24 +28,12 @@ function EmailAttachmentForm() {
         setFile(selectedFile);
     }
 
-    // Handle email input and add it to the email list
-    function handleEmailChange(event) {
-        setEmail(event.target.value);
-    }
-
-    function handleAddEmail() {
-        if (email && !emails.includes(email)) {
-            setEmails([...emails, email]);
-            setEmail('');
-        }
-    }
-
     // Handle file upload and email sending
     function handleSubmit(event) {
         event.preventDefault();
 
-        if (!file || emails.length === 0) {
-            setError(new Error('Please select a file and enter at least one email.'));
+        if (!file) {
+            setError(new Error('Please select a file.'));
             return;
         }
 
@@ -57,6 +43,7 @@ function EmailAttachmentForm() {
         formData.append('file', file);
         formData.append('fileName', file.name);
 
+        // Upload file to the backend
         axios.post('http://localhost:5001/uploadFile', formData, {
             headers: { 'content-type': 'multipart/form-data' },
         })
@@ -65,38 +52,12 @@ function EmailAttachmentForm() {
                 setUploadedFileUrl(uploadedFilePath);
                 setLoading(false);
 
-                // Call EmailJS to send the email with the uploaded file from backend
-                sendEmails(uploadedFilePath); // Call function to send emails with the uploaded file
+                console.log('File uploaded and backend will handle sending emails');
             })
             .catch((error) => {
                 setError(new Error('Error uploading file: ' + error.message));
                 setLoading(false);
             });
-    }
-
-    // Function to send emails with the uploaded file
-    function sendEmails(uploadedFilePath) {
-        emails.forEach((recipientEmail) => {
-            const emailData = {
-                service_id: 'your_service_id',
-                template_id: 'your_template_id',
-                user_id: 'your_user_id',
-                template_params: {
-                    'recipient_email': recipientEmail,
-                    'attachment_url': `http://localhost:5001${uploadedFilePath}` // Use the backend file URL
-                },
-            };
-
-            // Sending email via EmailJS API
-            axios.post('https://api.emailjs.com/api/v1.0/email/send', emailData)
-                .then(() => {
-                    console.log(`Email sent to ${recipientEmail}`);
-                })
-                .catch((error) => {
-                    console.error('Error sending email:', error.message);
-                    setError(new Error('Error sending email: ' + error.message));
-                });
-        });
     }
 
     return (
@@ -108,22 +69,6 @@ function EmailAttachmentForm() {
                     </Typography>
 
                     <form onSubmit={handleSubmit}>
-                        <TextField
-                            fullWidth
-                            label="Email"
-                            value={email}
-                            onChange={handleEmailChange}
-                            variant="outlined"
-                            margin="normal"
-                        />
-                        <Button variant="contained" color="primary" onClick={handleAddEmail} fullWidth sx={{ mb: 2 }}>
-                            Add Email
-                        </Button>
-
-                        <Typography variant="body2" gutterBottom sx={{ mb: 2 }}>
-                            Emails: {emails.join(', ')}
-                        </Typography>
-
                         <Button variant="outlined" component="label" fullWidth sx={{ mb: 3 }}>
                             Select File
                             <input type="file" hidden onChange={handleFileChange} />
@@ -134,7 +79,7 @@ function EmailAttachmentForm() {
                         </Button>
 
                         {loading && <CircularProgress sx={{ mt: 2 }} />}
-                        {uploadedFileUrl && <Typography sx={{ mt: 2 }}>File uploaded successfully!</Typography>}
+                        {uploadedFileUrl && <Typography sx={{ mt: 2 }}>File uploaded successfully! Emails will be sent by backend.</Typography>}
                         {error && <Typography color="error" sx={{ mt: 2 }}>{error.message}</Typography>}
                     </form>
                 </Paper>
@@ -144,6 +89,7 @@ function EmailAttachmentForm() {
 }
 
 export default EmailAttachmentForm;
+
 
 
 // import React, { useState } from 'react';
