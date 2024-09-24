@@ -4,6 +4,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import EmailList from './components/email/email.js';
 import DisplayEmails from './components/email/displayemail.js';
+import EmailSender from './components/email/emailsender.js';
 
 
 
@@ -29,6 +30,9 @@ function Main() {
 
       {/* DisplayEmails will re-fetch whenever emailRefreshTrigger changes */}
       <DisplayEmails emailRefreshTrigger={emailRefreshTrigger} />
+
+      <EmailSender />
+
 
     </>
   );
