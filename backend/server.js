@@ -107,9 +107,9 @@ function sendEmailsWithAttachment(uploadedFilePath, res) {
     // Send emails to each recipient in the email list
     emailList.forEach(async (recipientEmail) => {
       const emailData = {
-        service_id: 'your_service_id',   // Replace with your EmailJS service ID
-        template_id: 'your_template_id', // Replace with your EmailJS template ID
-        user_id: 'your_user_id',         // Replace with your EmailJS user ID
+        service_id: 'service_cxrroqf',   // Your EmailJS service ID
+        template_id: 'template_dorbgd', // Your EmailJS template ID
+        user_id: 'o5MLS1yF53Sj3iw2X',         // Your EmailJS public key as user ID
         template_params: {
           'recipient_email': recipientEmail,
           'attachment_url': `http://localhost:5001${uploadedFilePath}`, // Backend file URL
@@ -127,6 +127,7 @@ function sendEmailsWithAttachment(uploadedFilePath, res) {
     res.send({ message: 'Emails sent successfully' });
   });
 }
+
 
 // Endpoint to delete an email
 app.delete('/deleteEmail', (req, res) => {
