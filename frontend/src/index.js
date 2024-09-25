@@ -25,11 +25,7 @@ function Main() {
 
   return (
     <>
-          <h1>Send Email from React App using EmailJS</h1>
-          <EmailRestAPI />
-
-
-      {/* <EmailRestAPI /> */}
+      <EmailRestAPI />
       <App />
       <EmailSender />
       <EmailList emailList={emailList} setEmailList={setEmailList} onEmailAdded={handleEmailAdded} />
