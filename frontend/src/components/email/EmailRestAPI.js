@@ -21,6 +21,7 @@ const EmailRestAPI = () => {
 
     const { name, email, message } = formData;
 
+    // Data information
     const data = {
       service_id: 'service_cxrroqf',
       template_id: 'template_dorbgjd',
