@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import EmailList from './components/email/email.js';
 import DisplayEmails from './components/email/displayemail.js';
 import EmailSender from './components/email/emailsender.js';
+import EmailRestAPI from './components/email/EmailRestAPI.js';
 
 
 
@@ -24,6 +25,11 @@ function Main() {
 
   return (
     <>
+          <h1>Send Email from React App using EmailJS</h1>
+          <EmailRestAPI />
+
+
+      {/* <EmailRestAPI /> */}
       <App />
       <EmailSender />
       <EmailList emailList={emailList} setEmailList={setEmailList} onEmailAdded={handleEmailAdded} />
