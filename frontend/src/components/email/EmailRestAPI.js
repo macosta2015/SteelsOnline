@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Snackbar, Alert, Grid } from '@mui/material';
+import { TextField, Button, Typography, Snackbar, Alert, Grid, Paper, Box } from '@mui/material';
 
 const EmailRestAPI = () => {
   const [formData, setFormData] = useState({
@@ -59,11 +59,11 @@ const EmailRestAPI = () => {
   return (
     <Grid container justifyContent="center" alignItems="center" sx={{ height: '100vh', padding: 2 }}>
       <Grid item xs={12} sm={8} md={6} lg={4}>
-        <Container>
-          <Typography variant="h4" gutterBottom>
+        <Paper elevation={3} sx={{ padding: 4 }}>
+          <Typography variant="h4" align="center" gutterBottom>
             Send an Email
           </Typography>
-          <form onSubmit={handleSubmit}>
+          <Box component="form" onSubmit={handleSubmit} noValidate>
             <TextField
               label="Your Name"
               name="name"
@@ -105,8 +105,8 @@ const EmailRestAPI = () => {
             >
               Send Email
             </Button>
-          </form>
-        </Container>
+          </Box>
+        </Paper>
       </Grid>
 
       {/* Snackbar for success message */}
@@ -129,7 +129,7 @@ export default EmailRestAPI;
 
 // import axios from 'axios';
 // import React, { useState } from 'react';
-// import { TextField, Button, Container, Typography, Snackbar, Alert } from '@mui/material';
+// import { TextField, Button, Container, Typography, Snackbar, Alert, Grid } from '@mui/material';
 
 // const EmailRestAPI = () => {
 //   const [formData, setFormData] = useState({
@@ -186,53 +186,57 @@ export default EmailRestAPI;
 //   };
 
 //   return (
-//     <Container maxWidth="sm" style={{ marginTop: '2rem' }}>
-//       <Typography variant="h4" gutterBottom>
-//         Send an Email
-//       </Typography>
-//       <form onSubmit={handleSubmit}>
-//         <TextField
-//           label="Your Name"
-//           name="name"
-//           variant="outlined"
-//           fullWidth
-//           margin="normal"
-//           value={formData.name}
-//           onChange={handleChange}
-//           required
-//         />
-//         <TextField
-//           label="Your Email"
-//           name="email"
-//           variant="outlined"
-//           fullWidth
-//           margin="normal"
-//           value={formData.email}
-//           onChange={handleChange}
-//           required
-//         />
-//         <TextField
-//           label="Your Message"
-//           name="message"
-//           variant="outlined"
-//           fullWidth
-//           multiline
-//           rows={6}
-//           margin="normal"
-//           value={formData.message}
-//           onChange={handleChange}
-//           required
-//         />
-//         <Button
-//           type="submit"
-//           variant="contained"
-//           color="primary"
-//           fullWidth
-//           style={{ marginTop: '1rem' }}
-//         >
-//           Send Email
-//         </Button>
-//       </form>
+//     <Grid container justifyContent="center" alignItems="center" sx={{ height: '100vh', padding: 2 }}>
+//       <Grid item xs={12} sm={8} md={6} lg={4}>
+//         <Container>
+//           <Typography variant="h4" gutterBottom>
+//             Send an Email
+//           </Typography>
+//           <form onSubmit={handleSubmit}>
+//             <TextField
+//               label="Your Name"
+//               name="name"
+//               variant="outlined"
+//               fullWidth
+//               margin="normal"
+//               value={formData.name}
+//               onChange={handleChange}
+//               required
+//             />
+//             <TextField
+//               label="Your Email"
+//               name="email"
+//               variant="outlined"
+//               fullWidth
+//               margin="normal"
+//               value={formData.email}
+//               onChange={handleChange}
+//               required
+//             />
+//             <TextField
+//               label="Your Message"
+//               name="message"
+//               variant="outlined"
+//               fullWidth
+//               multiline
+//               rows={6}
+//               margin="normal"
+//               value={formData.message}
+//               onChange={handleChange}
+//               required
+//             />
+//             <Button
+//               type="submit"
+//               variant="contained"
+//               color="primary"
+//               fullWidth
+//               sx={{ mt: 2 }}
+//             >
+//               Send Email
+//             </Button>
+//           </form>
+//         </Container>
+//       </Grid>
 
 //       {/* Snackbar for success message */}
 //       <Snackbar
@@ -245,7 +249,7 @@ export default EmailRestAPI;
 //           Email sent successfully!
 //         </Alert>
 //       </Snackbar>
-//     </Container>
+//     </Grid>
 //   );
 // };
 
