@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, Snackbar, Typography, Grid } from '@mui/material';
-import MuiAlert from '@mui/material/Alert';
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+import { Box, TextField, Button, Snackbar, Typography, Grid, Container, Alert } from '@mui/material';
 
 function EmailList({ onEmailAdded }) {
   const [email, setEmail] = useState('');
@@ -54,48 +49,53 @@ function EmailList({ onEmailAdded }) {
   };
 
   return (
-    <Grid container justifyContent="center" alignItems="center" sx={{ height: '100vh', padding: 2 }}>
-      <Grid item xs={12} sm={8} md={6} lg={4}>
-        <Box sx={{ padding: 3, borderRadius: 2, boxShadow: 3, backgroundColor: '#f9f9f9' }}>
-          <Typography variant="h5" align="center" gutterBottom>
-            Add Email to List
-          </Typography>
+    <Container maxWidth="sm" sx={{ mt: 4 }}>
+      <Grid container justifyContent="center" alignItems="center">
+        <Grid item xs={12}>
+          <Box sx={{ padding: 3, borderRadius: 2, boxShadow: 3, backgroundColor: '#f9f9f9' }}>
+            <Typography variant="h5" align="center" gutterBottom>
+              Add Email to List
+            </Typography>
 
-          <form onSubmit={handleSubmit}>
-            <TextField
-              fullWidth
-              label="Enter Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              error={!!error}
-              helperText={error}
-              variant="outlined"
-              sx={{ mb: 2 }}
-            />
-            <Button type="submit" variant="contained" color="primary" fullWidth>
-              Add Email
-            </Button>
-          </form>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                fullWidth
+                label="Enter Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                error={!!error}
+                helperText={error}
+                variant="outlined"
+                sx={{ mb: 2 }}
+              />
+              <Button type="submit" variant="contained" color="primary" fullWidth>
+                Add Email
+              </Button>
+            </form>
 
-          {/* Snackbar for success */}
-          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-            <Alert onClose={handleCloseSnackbar} severity="success">
-              Email added successfully!
-            </Alert>
-          </Snackbar>
-        </Box>
+            {/* Snackbar for success */}
+            <Snackbar
+              open={openSnackbar}
+              autoHideDuration={6000}
+              onClose={handleCloseSnackbar}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+              <Alert onClose={handleCloseSnackbar} severity="success">
+                Email added successfully!
+              </Alert>
+            </Snackbar>
+          </Box>
+        </Grid>
       </Grid>
-    </Grid>
+    </Container>
   );
 }
 
 export default EmailList;
 
 
-
-
 // import React, { useState } from 'react';
-// import { Box, TextField, Button, Snackbar, Typography } from '@mui/material';
+// import { Box, TextField, Button, Snackbar, Typography, Grid } from '@mui/material';
 // import MuiAlert from '@mui/material/Alert';
 
 // const Alert = React.forwardRef(function Alert(props, ref) {
@@ -150,36 +150,41 @@ export default EmailList;
 //   };
 
 //   return (
-//     <Box sx={{ maxWidth: 500, mx: 'auto', mt: 5, padding: 3, borderRadius: 2, boxShadow: 3 }}>
-//       <Typography variant="h5" align="center" gutterBottom>
-//         Add Email to List
-//       </Typography>
+//     <Grid container justifyContent="center" alignItems="center" sx={{ height: '100vh', padding: 2 }}>
+//       <Grid item xs={12} sm={8} md={6} lg={4}>
+//         <Box sx={{ padding: 3, borderRadius: 2, boxShadow: 3, backgroundColor: '#f9f9f9' }}>
+//           <Typography variant="h5" align="center" gutterBottom>
+//             Add Email to List
+//           </Typography>
 
-//       <form onSubmit={handleSubmit}>
-//         <TextField
-//           fullWidth
-//           label="Enter Email"
-//           value={email}
-//           onChange={(e) => setEmail(e.target.value)}
-//           error={!!error}
-//           helperText={error}
-//           variant="outlined"
-//           sx={{ mb: 2 }}
-//         />
-//         <Button type="submit" variant="contained" color="primary" fullWidth>
-//           Add Email
-//         </Button>
-//       </form>
+//           <form onSubmit={handleSubmit}>
+//             <TextField
+//               fullWidth
+//               label="Enter Email"
+//               value={email}
+//               onChange={(e) => setEmail(e.target.value)}
+//               error={!!error}
+//               helperText={error}
+//               variant="outlined"
+//               sx={{ mb: 2 }}
+//             />
+//             <Button type="submit" variant="contained" color="primary" fullWidth>
+//               Add Email
+//             </Button>
+//           </form>
 
-//       {/* Snackbar for success */}
-//       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-//         <Alert onClose={handleCloseSnackbar} severity="success">
-//           Email added successfully!
-//         </Alert>
-//       </Snackbar>
-//     </Box>
+//           {/* Snackbar for success */}
+//           <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+//             <Alert onClose={handleCloseSnackbar} severity="success">
+//               Email added successfully!
+//             </Alert>
+//           </Snackbar>
+//         </Box>
+//       </Grid>
+//     </Grid>
 //   );
 // }
 
 // export default EmailList;
+
 

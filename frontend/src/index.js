@@ -6,9 +6,6 @@ import EmailList from './components/email/email.js';
 import DisplayEmails from './components/email/displayemail.js';
 import EmailSender from './components/email/emailsender.js';
 import EmailRestAPI from './components/email/EmailRestAPI.js';
-
-
-
 import App from './App.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -27,7 +24,7 @@ function Main() {
     <>
       <EmailRestAPI />
       <App />
-      <EmailSender />
+      {/* <EmailSender /> */}
       <EmailList emailList={emailList} setEmailList={setEmailList} onEmailAdded={handleEmailAdded} />
       {/* DisplayEmails will re-fetch whenever emailRefreshTrigger changes */}
       <DisplayEmails emailRefreshTrigger={emailRefreshTrigger} />
